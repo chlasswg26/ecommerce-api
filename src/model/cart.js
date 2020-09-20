@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
-const Address = sequelize.define('address', {
+const Cart = sequelize.define('cart', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -12,9 +12,14 @@ const Address = sequelize.define('address', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  description: {
-    type: DataTypes.TEXT,
+  product: {
+    type: DataTypes.INTEGER,
     allowNull: false
+  },
+  guest: {
+    type: DataTypes.ENUM('1', '2'),
+    allowNull: false,
+    defaultValue: '1'
   },
   status: {
     type: DataTypes.ENUM('1', '2'),
@@ -30,4 +35,4 @@ const Address = sequelize.define('address', {
 }
 );
 
-module.exports = Address;
+module.exports = Cart;

@@ -5,7 +5,8 @@ const Payment = sequelize.define('payment', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true
   },
   name: {
     type: DataTypes.STRING(50),
@@ -28,7 +29,8 @@ const Payment = sequelize.define('payment', {
   timestamps: false,
   createdAt: false,
   updatedAt: false,
-  freezeTableName: true
+  freezeTableName: true,
+  initialAutoIncrement: 1
 }
 );
 

@@ -5,7 +5,8 @@ const History = sequelize.define('history', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true
   },
   seller: {
     type: DataTypes.INTEGER,
@@ -50,7 +51,8 @@ const History = sequelize.define('history', {
   timestamps: true,
   createdAt: false,
   updatedAt: false,
-  freezeTableName: true
+  freezeTableName: true,
+  initialAutoIncrement: 1
 }
 );
 

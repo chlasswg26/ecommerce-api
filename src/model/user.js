@@ -5,7 +5,8 @@ const User = sequelize.define('user', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true
   },
   name: {
     type: DataTypes.STRING(50),
@@ -54,7 +55,8 @@ const User = sequelize.define('user', {
   timestamps: true,
   createdAt: false,
   updatedAt: false,
-  freezeTableName: true
+  freezeTableName: true,
+  initialAutoIncrement: 1
 }
 );
 

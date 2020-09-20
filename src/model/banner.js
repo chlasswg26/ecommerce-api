@@ -5,7 +5,8 @@ const Banner = sequelize.define('banner', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true
   },
   name: {
     type: DataTypes.STRING(50),
@@ -42,7 +43,8 @@ const Banner = sequelize.define('banner', {
   timestamps: true,
   createdAt: false,
   updatedAt: false,
-  freezeTableName: true
+  freezeTableName: true,
+  initialAutoIncrement: 1
 }
 );
 

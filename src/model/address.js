@@ -10,11 +10,21 @@ const Address = sequelize.define('address', {
   },
   user: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isNumeric: true,
+      isInt: true
+    }
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   status: {
     type: DataTypes.ENUM('1', '2'),

@@ -1,22 +1,22 @@
 const helper = require('../helper');
-const Category = require('../model/category');
+const Address = require('../model/address');
 
 module.exports = {
-  getCategory: async function (_request, response) {
+  getAddress: async function (_request, response) {
     try {
-      const result = await Category.findAll();
+      const result = await Address.findAll();
 
       return helper.response(response, 200, result);
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  getCategoryById: async function (request, response) {
+  getAddressById: async function (request, response) {
     try {
-      const idCategory = request.params.id || 0;
-      const result = await Category.findAll({
+      const idAddress = request.params.id || 0;
+      const result = await Address.findAll({
         where: {
-          id: idCategory
+          id: idAddress
         }
       });
 
@@ -25,10 +25,10 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  postCategory: async function (request, response) {
+  postAddress: async function (request, response) {
     try {
       const setData = request.body;
-      const result = await Category.create(setData, {
+      const result = await Address.create(setData, {
         validate: true
       });
 
@@ -37,13 +37,13 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  putCategory: async function (request, response) {
+  putAddress: async function (request, response) {
     try {
       const newData = request.body;
-      const idCategory = request.params.id || 0;
-      const result = await Category.update(newData, {
+      const idAddress = request.params.id || 0;
+      const result = await Address.update(newData, {
         where: {
-          id: idCategory
+          id: idAddress
         },
         validate: true
       });
@@ -57,12 +57,12 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  deleteCategory: async function (request, response) {
+  deleteAddress: async function (request, response) {
     try {
-      const idCategory = request.params.id || 0;
-      const result = await Category.destroy({
+      const idAddress = request.params.id || 0;
+      const result = await Address.destroy({
         where: {
-          id: idCategory
+          id: idAddress
         }
       });
 

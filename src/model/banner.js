@@ -10,19 +10,31 @@ const Banner = sequelize.define('banner', {
   },
   name: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   image: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   reference: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: true
   },
   status: {
     type: DataTypes.ENUM('1', '2'),

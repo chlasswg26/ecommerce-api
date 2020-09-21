@@ -10,17 +10,30 @@ const User = sequelize.define('user', {
   },
   name: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   email: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isEmail: true
+    }
   },
   password: {
     type: DataTypes.STRING(200),
     allowNull: false,
-    unique: true
+    unique: true,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
   },
   role: {
     type: DataTypes.ENUM('1', '2'),
@@ -30,11 +43,19 @@ const User = sequelize.define('user', {
   balance: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 0,
+    isNumeric: true,
+    isInt: true
   },
   address: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isNumeric: true,
+      isInt: true
+    }
   },
   status: {
     type: DataTypes.ENUM('1', '2'),

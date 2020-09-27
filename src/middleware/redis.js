@@ -1,5 +1,5 @@
 const RedisClient = require('../config/redis');
-const helper = require('../helpers');
+const helper = require('../helper');
 
 module.exports = {
   cache: function (request, response, next) {

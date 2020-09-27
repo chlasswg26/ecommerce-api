@@ -19,6 +19,11 @@ const sequelize = require('./src/config/sequelize');
 
 sequelize
   .sync()
+  /**
+   * Uncomment these below for development only
+   * Forcing sync
+   */
+  // .sync({ force: true })
   .then(_result => {
     console.log('Sequelize database connected');
   })

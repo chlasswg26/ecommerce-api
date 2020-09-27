@@ -1,22 +1,12 @@
 const helper = require('../helper');
-const Address = require('../model/address');
+const User = require('../model/user');
 
 module.exports = {
-  getAddress: async function (_request, response) {
+  getUser: async function (_request, response) {
     try {
-      const result = await Address.findAll();
-
-      return helper.response(response, 200, result);
-    } catch (error) {
-      return helper.response(response, 500, { message: error.message });
-    }
-  },
-  getAddressById: async function (request, response) {
-    try {
-      const idAddress = request.params.id || 0;
-      const result = await Address.findOne({
-        where: {
-          id: idAddress
+      const result = await User.findAll({
+        attributes: {
+          exclude: ['password', 'verify_code']
         }
       });
 
@@ -25,12 +15,15 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  getAddressByUser: async function (request, response) {
+  getUserById: async function (request, response) {
     try {
       const idUser = request.params.id || 0;
-      const result = await Address.findAll({
+      const result = await User.findOne({
         where: {
-          user: idUser
+          id: idUser
+        },
+        attributes: {
+          exclude: ['password', 'verify_code']
         }
       });
 
@@ -39,30 +32,50 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  postAddress: async function (request, response) {
+  getUserByAddress: async function (request, response) {
     try {
-      const setData = request.body;
-      const result = await Address.create(setData, {
-        validate: true
-      });
-
-      return helper.response(response, 200, result);
-    } catch (error) {
-      return helper.response(response, 500, { message: error.message });
-    }
-  },
-  putAddress: async function (request, response) {
-    try {
-      const newData = request.body;
       const idAddress = request.params.id || 0;
-      const result = await Address.update(newData, {
+      const result = await User.findOne({
         where: {
           id: idAddress
         },
+        attributes: {
+          exclude: ['password', 'verify_code']
+        }
+      });
+
+      return helper.response(response, 200, result);
+    } catch (error) {
+      return helper.response(response, 500, { message: error.message });
+    }
+  },
+  postUser: async function (request, response) {
+    try {
+      const setData = request.body;
+      const result = await User.create(setData, {
         validate: true
       });
 
+      delete result.password;
+      delete result.verify_code;
+      return helper.response(response, 200, result);
+    } catch (error) {
+      return helper.response(response, 500, { message: error.message });
+    }
+  },
+  putUser: async function (request, response) {
+    try {
+      const newData = request.body;
+      const idUser = request.params.id || 0;
+      const result = await User.update(newData, {
+        where: {
+          id: idUser
+        }
+      });
+
       if (result[0] >= 1) {
+        if (newData.password) delete newData.password;
+
         return helper.response(response, 200, newData);
       }
 
@@ -71,12 +84,12 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  deleteAddress: async function (request, response) {
+  deleteUser: async function (request, response) {
     try {
-      const idAddress = request.params.id || 0;
-      const result = await Address.destroy({
+      const idUser = request.params.id || 0;
+      const result = await User.destroy({
         where: {
-          id: idAddress
+          id: idUser
         }
       });
 

@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
 const Banner = sequelize.define('banner', {
@@ -42,14 +42,12 @@ const Banner = sequelize.define('banner', {
     defaultValue: '1'
   },
   added: {
-    type: 'timestamp',
-    allowNull: false,
-    defaultValue: Sequelize.literal('current_timestamp()')
+    type: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
+    allowNull: true
   },
   updated: {
-    type: 'timestamp',
-    allowNull: false,
-    defaultValue: Sequelize.literal('current_timestamp() ON UPDATE current_timestamp()')
+    type: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+    allowNull: true
   }
 }, {
   timestamps: true,

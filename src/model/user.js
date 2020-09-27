@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
 
 const User = sequelize.define('user', {
@@ -44,12 +44,32 @@ const User = sequelize.define('user', {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 0,
-    isNumeric: true,
-    isInt: true
+    validate: {
+      isNumeric: true,
+      isInt: true
+    }
+  },
+  image: {
+    type: DataTypes.STRING(100),
+    allowNull: true
   },
   address: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+      isNumeric: true,
+      isInt: true
+    }
+  },
+  verify_code: {
+    type: DataTypes.STRING(200),
+    allowNull: true
+  },
+  verify: {
+    type: DataTypes.ENUM('1', '2'),
+    allowNull: false,
+    defaultValue: '1',
     validate: {
       notNull: true,
       notEmpty: true,
@@ -63,14 +83,12 @@ const User = sequelize.define('user', {
     defaultValue: '1'
   },
   added: {
-    type: 'timestamp',
-    allowNull: false,
-    defaultValue: Sequelize.literal('current_timestamp()')
+    type: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
+    allowNull: true
   },
   updated: {
-    type: 'timestamp',
-    allowNull: false,
-    defaultValue: Sequelize.literal('current_timestamp() ON UPDATE current_timestamp()')
+    type: 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+    allowNull: true
   }
 }, {
   timestamps: true,

@@ -52,7 +52,7 @@ module.exports = {
         return helper.response(response, 200, newData);
       }
 
-      return helper.response(response, 200, { message: 'Data is not affected' });
+      return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }
@@ -70,7 +70,7 @@ module.exports = {
         return helper.response(response, 200);
       }
 
-      return helper.response(response, 200, { message: 'Data is not affected' });
+      return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }

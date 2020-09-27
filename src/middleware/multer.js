@@ -4,7 +4,7 @@
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
-const helper = require('../helpers');
+const helper = require('../helper');
 
 const multerStorage = multer({
   storage: multer.diskStorage({

@@ -13,12 +13,10 @@ module.exports = {
   },
   getCategoryById: async function (request, response) {
     try {
-      const idCategory = request.params.id || 0;
-      const result = await Category.findAll({
-        where: {
-          id: idCategory
-        }
-      });
+      const idCategory = request.params.id || null;
+      const result = await Category.findByPk(idCategory);
+
+      if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -40,7 +38,7 @@ module.exports = {
   putCategory: async function (request, response) {
     try {
       const newData = request.body;
-      const idCategory = request.params.id || 0;
+      const idCategory = request.params.id || null;
       const result = await Category.update(newData, {
         where: {
           id: idCategory
@@ -48,7 +46,7 @@ module.exports = {
         validate: true
       });
 
-      if (result[0] >= 1) {
+      if (result >= 1) {
         return helper.response(response, 200, newData);
       }
 
@@ -59,7 +57,7 @@ module.exports = {
   },
   deleteCategory: async function (request, response) {
     try {
-      const idCategory = request.params.id || 0;
+      const idCategory = request.params.id || null;
       const result = await Category.destroy({
         where: {
           id: idCategory

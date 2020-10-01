@@ -13,12 +13,10 @@ module.exports = {
   },
   getAddressById: async function (request, response) {
     try {
-      const idAddress = request.params.id || 0;
-      const result = await Address.findOne({
-        where: {
-          id: idAddress
-        }
-      });
+      const idAddress = request.params.id || null;
+      const result = await Address.findByPk(idAddress);
+
+      if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -27,12 +25,14 @@ module.exports = {
   },
   getAddressByUser: async function (request, response) {
     try {
-      const idUser = request.params.id || 0;
+      const idUser = request.params.id || null;
       const result = await Address.findAll({
         where: {
           user: idUser
         }
       });
+
+      if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -54,7 +54,7 @@ module.exports = {
   putAddress: async function (request, response) {
     try {
       const newData = request.body;
-      const idAddress = request.params.id || 0;
+      const idAddress = request.params.id || null;
       const result = await Address.update(newData, {
         where: {
           id: idAddress
@@ -62,7 +62,7 @@ module.exports = {
         validate: true
       });
 
-      if (result[0] >= 1) {
+      if (result >= 1) {
         return helper.response(response, 200, newData);
       }
 
@@ -73,7 +73,7 @@ module.exports = {
   },
   deleteAddress: async function (request, response) {
     try {
-      const idAddress = request.params.id || 0;
+      const idAddress = request.params.id || null;
       const result = await Address.destroy({
         where: {
           id: idAddress

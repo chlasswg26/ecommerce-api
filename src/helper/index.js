@@ -37,12 +37,24 @@ module.exports = {
       subject: subject,
       html: template
     });
+    const previewUrl = nodemailer.getTestMessageUrl(info);
     console.log('Message sent: %s', info.messageId);
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    console.log('Preview URL: %s', previewUrl);
+
+    return previewUrl;
   },
   redis: function (object) {
     return Object.keys(object)
       .map((key) => key + object[key])
       .join('');
+  },
+  signOptions: function (expires) {
+    const signOptions = {
+      issuer: process.env.SITE_NAME,
+      subject: process.env.SERVICE_EMAIL,
+      audience: 'http://localhost:5000',
+      expiresIn: expires
+    };
+    return signOptions;
   }
 };

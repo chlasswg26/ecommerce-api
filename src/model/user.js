@@ -55,9 +55,8 @@ const User = sequelize.define('user', {
   },
   address: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     validate: {
-      notEmpty: true,
       isNumeric: true,
       isInt: true
     }

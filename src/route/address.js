@@ -2,14 +2,14 @@ const express = require('express');
 const Route = express.Router();
 const addressControllers = require('../controller/address');
 
-const { authentication, authorization } = require('../middleware/auth');
+const { verifyToken } = require('../middleware/auth');
 
 Route
-  .get('/', addressControllers.getAddress)
-  .get('/:id', addressControllers.getAddressById)
-  .get('/user/:id', addressControllers.getAddressByUser)
-  .post('/', addressControllers.postAddress)
-  .put('/:id', addressControllers.putAddress)
-  .delete('/:id', addressControllers.deleteAddress);
+  .get('/', verifyToken, addressControllers.getAddress)
+  .get('/:id', verifyToken, addressControllers.getAddressById)
+  .get('/user/:id', verifyToken, addressControllers.getAddressByUser)
+  .post('/', verifyToken, addressControllers.postAddress)
+  .put('/:id', verifyToken, addressControllers.putAddress)
+  .delete('/:id', verifyToken, addressControllers.deleteAddress);
 
 module.exports = Route;

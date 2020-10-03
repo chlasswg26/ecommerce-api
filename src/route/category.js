@@ -2,13 +2,13 @@ const express = require('express');
 const Route = express.Router();
 const categoryControllers = require('../controller/category');
 
-const { authentication, authorization } = require('../middleware/auth');
+const { verifyToken, authorization } = require('../middleware/auth');
 
 Route
-  .get('/', categoryControllers.getCategory)
-  .get('/:id', categoryControllers.getCategoryById)
-  .post('/', categoryControllers.postCategory)
-  .put('/:id', categoryControllers.putCategory)
-  .delete('/:id', categoryControllers.deleteCategory);
+  .get('/', verifyToken, categoryControllers.getCategory)
+  .get('/:id', verifyToken, categoryControllers.getCategoryById)
+  .post('/', verifyToken, authorization, categoryControllers.postCategory)
+  .put('/:id', verifyToken, authorization, categoryControllers.putCategory)
+  .delete('/:id', verifyToken, authorization, categoryControllers.deleteCategory);
 
 module.exports = Route;

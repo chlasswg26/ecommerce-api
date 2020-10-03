@@ -1,20 +1,20 @@
 const helper = require('../helper');
-const Category = require('../model/category');
+const Banner = require('../model/banner');
 
 module.exports = {
-  getCategory: async function (_request, response) {
+  getBanner: async function (_request, response) {
     try {
-      const result = await Category.findAll();
+      const result = await Banner.findAll();
 
       return helper.response(response, 200, result);
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  getCategoryById: async function (request, response) {
+  getBannerById: async function (request, response) {
     try {
-      const idCategory = request.params.id || null;
-      const result = await Category.findByPk(idCategory);
+      const idBanner = request.params.id || null;
+      const result = await Banner.findByPk(idBanner);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -23,10 +23,14 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  postCategory: async function (request, response) {
+  postBanner: async function (request, response) {
     try {
       const setData = request.body;
-      const result = await Category.create(setData, {
+      const file = request.file;
+
+      if (file) setData.image = file.filename;
+
+      const result = await Banner.create(setData, {
         validate: true
       });
 
@@ -35,15 +39,18 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  putCategory: async function (request, response) {
+  putBanner: async function (request, response) {
     try {
       const newData = request.body;
-      const idCategory = request.params.id || null;
-      const result = await Category.update(newData, {
+      const idBanner = request.params.id || null;
+      const file = request.file;
+
+      if (file) newData.image = file.filename;
+
+      const result = await Banner.update(newData, {
         where: {
-          id: idCategory
-        },
-        validate: true
+          id: idBanner
+        }
       });
 
       if (result >= 1) return helper.response(response, 200, newData);
@@ -53,12 +60,12 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  deleteCategory: async function (request, response) {
+  deleteBanner: async function (request, response) {
     try {
-      const idCategory = request.params.id || null;
-      const result = await Category.destroy({
+      const idBanner = request.params.id || null;
+      const result = await Banner.destroy({
         where: {
-          id: idCategory
+          id: idBanner
         }
       });
 
@@ -66,7 +73,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+
     }
   }
 };

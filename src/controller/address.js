@@ -62,9 +62,7 @@ module.exports = {
         validate: true
       });
 
-      if (result >= 1) {
-        return helper.response(response, 200, newData);
-      }
+      if (result >= 1) return helper.response(response, 200, newData);
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
@@ -80,9 +78,7 @@ module.exports = {
         }
       });
 
-      if (result >= 1) {
-        return helper.response(response, 200);
-      }
+      if (result >= 1) return helper.response(response, 200, { message: 'Data has been deleted' });
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {

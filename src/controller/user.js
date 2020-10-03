@@ -104,9 +104,7 @@ module.exports = {
         }
       });
 
-      if (result >= 1) {
-        return helper.response(response, 200, { message: 'Data has been deleted' });
-      }
+      if (result >= 1) return helper.response(response, 200, { message: 'Data has been deleted' });
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {

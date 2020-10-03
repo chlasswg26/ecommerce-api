@@ -129,9 +129,7 @@ module.exports = {
         }
       });
 
-      if (result >= 1) {
-        return helper.response(response, 200, { message: 'Verified account' });
-      }
+      if (result >= 1) return helper.response(response, 200, { message: 'Verified account' });
 
       return helper.response(response, 400, { message: 'Verification failed' });
     } catch (error) {

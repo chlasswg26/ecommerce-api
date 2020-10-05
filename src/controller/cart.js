@@ -1,20 +1,20 @@
 const helper = require('../helper');
-const Banner = require('../model/banner');
+const Cart = require('../model/cart');
 
 module.exports = {
-  getBanner: async function (_request, response) {
+  getCart: async function (_request, response) {
     try {
-      const result = await Banner.findAll();
+      const result = await Cart.findAll();
 
       return helper.response(response, 200, result);
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  getBannerById: async function (request, response) {
+  getCartById: async function (request, response) {
     try {
-      const idBanner = request.params.id || null;
-      const result = await Banner.findByPk(idBanner);
+      const idCart = request.params.id || null;
+      const result = await Cart.findByPk(idCart);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -23,14 +23,26 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  postBanner: async function (request, response) {
+  getCartByUser: async function (request, response) {
+    try {
+      const idUser = request.params.id || null;
+      const result = await Cart.findAll({
+        where: {
+          user: idUser
+        }
+      });
+
+      if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
+
+      return helper.response(response, 200, result);
+    } catch (error) {
+      return helper.response(response, 500, { message: error.message });
+    }
+  },
+  postCart: async function (request, response) {
     try {
       const setData = request.body;
-      const file = request.file;
-
-      if (file) setData.image = file.filename;
-
-      const result = await Banner.create(setData, {
+      const result = await Cart.create(setData, {
         validate: true
       });
 
@@ -39,18 +51,15 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  putBanner: async function (request, response) {
+  putCart: async function (request, response) {
     try {
       const newData = request.body;
-      const idBanner = request.params.id || null;
-      const file = request.file;
-
-      if (file) newData.image = file.filename;
-
-      const result = await Banner.update(newData, {
+      const idCart = request.params.id || null;
+      const result = await Cart.update(newData, {
         where: {
-          id: idBanner
-        }
+          id: idCart
+        },
+        validate: true
       });
 
       if (result >= 1) return helper.response(response, 200, { message: 'Data is updated' });
@@ -60,12 +69,12 @@ module.exports = {
       return helper.response(response, 500, { message: error.message });
     }
   },
-  deleteBanner: async function (request, response) {
+  deleteCart: async function (request, response) {
     try {
-      const idBanner = request.params.id || null;
-      const result = await Banner.destroy({
+      const idCart = request.params.id || null;
+      const result = await Cart.destroy({
         where: {
-          id: idBanner
+          id: idCart
         }
       });
 
@@ -73,7 +82,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-
+      return helper.response(response, 500, { message: error.message });
     }
   }
 };

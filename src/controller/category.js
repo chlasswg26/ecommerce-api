@@ -46,7 +46,7 @@ module.exports = {
         validate: true
       });
 
-      if (result >= 1) return helper.response(response, 200, newData);
+      if (result >= 1) return helper.response(response, 200, { message: 'Data is updated' });
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {

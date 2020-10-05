@@ -1,14 +1,30 @@
+const bcrypt = require('bcrypt');
 const helper = require('../helper');
+const Address = require('../model/address');
 const User = require('../model/user');
+const modelOptions = {
+  include: [
+    {
+      model: Address
+    },
+    {
+      model: Address,
+      as: 'active_address'
+    }
+  ],
+  attributes: {
+    exclude: [
+      'address',
+      'password',
+      'verify_code'
+    ]
+  }
+};
 
 module.exports = {
   getUser: async function (_request, response) {
     try {
-      const result = await User.findAll({
-        attributes: {
-          exclude: ['password', 'verify_code']
-        }
-      });
+      const result = await User.findAll(modelOptions);
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -18,11 +34,7 @@ module.exports = {
   getUserById: async function (request, response) {
     try {
       const idUser = request.params.id || null;
-      const result = await User.findByPk(idUser, {
-        attributes: {
-          exclude: ['password', 'verify_code']
-        }
-      });
+      const result = await User.findByPk(idUser, modelOptions);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -39,9 +51,7 @@ module.exports = {
         where: {
           address: idAddress
         },
-        attributes: {
-          exclude: ['password', 'verify_code']
-        }
+        ...modelOptions
       });
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
@@ -56,8 +66,10 @@ module.exports = {
       const setData = request.body;
       setData.verify = '2';
       const file = request.file;
+      const hashedPassword = bcrypt.hashSync(setData.password, 18);
 
       if (file) setData.image = file.filename;
+      if (hashedPassword) setData.password = hashedPassword;
 
       const result = await User.create(setData, {
         validate: true
@@ -73,6 +85,8 @@ module.exports = {
   putUser: async function (request, response) {
     try {
       const newData = request.body;
+      const hashedPassword = bcrypt.hashSync(newData.password, 18);
+      newData.password = newData.password && hashedPassword;
       const idUser = request.params.id || null;
       const file = request.file;
 
@@ -87,7 +101,7 @@ module.exports = {
       if (result >= 1) {
         if (newData.password) delete newData.password;
 
-        return helper.response(response, 200, newData);
+        return helper.response(response, 200, { message: 'Data is updated' });
       }
 
       return helper.response(response, 400, { message: 'Data is not affected' });

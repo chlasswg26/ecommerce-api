@@ -6,14 +6,33 @@ const dotenv = require('dotenv');
 dotenv.config();
 const routeNavigator = require('./src/index');
 const sequelize = require('./src/config/sequelize');
+const User = require('./src/model/user');
+const Address = require('./src/model/address');
+
+User.hasMany(Address, {
+  foreignKey: 'user'
+});
+User.belongsTo(Address, {
+  as: 'active_address',
+  foreignKey: 'address',
+  constraints: false
+});
+Address.belongsTo(User, {
+  as: 'active_user',
+  foreignKey: 'user',
+  constraints: false
+});
 
 sequelize
   .sync()
-  /**
+
+/**
    * Uncomment these below for development only
    * Forcing sync
    */
-  // .sync({ force: true })
+
+// .sync({ force: true })
+
   .then(_result => {
     console.log('Sequelize database connected');
 

@@ -6,11 +6,11 @@ const { verifyToken, authorization } = require('../middleware/auth');
 const { multer } = require('../middleware/multer');
 
 Route
-  .get('/', verifyToken, userControllers.getUser)
-  .get('/:id', verifyToken, userControllers.getUserById)
+  .get('/', userControllers.getUser)
+  .get('/:id', userControllers.getUserById)
   .get('/address/:id', verifyToken, userControllers.getUserByAddress)
-  .post('/', verifyToken, authorization, multer, userControllers.postUser)
-  .put('/:id', verifyToken, authorization, multer, userControllers.putUser)
+  .post('/', multer, userControllers.postUser)
+  .put('/:id', multer, userControllers.putUser)
   .delete('/:id', verifyToken, authorization, userControllers.deleteUser);
 
 module.exports = Route;

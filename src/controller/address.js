@@ -1,10 +1,30 @@
 const helper = require('../helper');
 const Address = require('../model/address');
+const User = require('../model/user');
+const modelOptions = {
+  include: [
+    {
+      model: User,
+      attributes: {
+        exclude: [
+          'password',
+          'verify_code'
+        ]
+      },
+      as: 'active_user'
+    }
+  ],
+  attributes: {
+    exclude: [
+      'user'
+    ]
+  }
+};
 
 module.exports = {
   getAddress: async function (_request, response) {
     try {
-      const result = await Address.findAll();
+      const result = await Address.findAll(modelOptions);
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -14,7 +34,7 @@ module.exports = {
   getAddressById: async function (request, response) {
     try {
       const idAddress = request.params.id || null;
-      const result = await Address.findByPk(idAddress);
+      const result = await Address.findByPk(idAddress, modelOptions);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -29,7 +49,8 @@ module.exports = {
       const result = await Address.findAll({
         where: {
           user: idUser
-        }
+        },
+        ...modelOptions
       });
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
@@ -62,7 +83,7 @@ module.exports = {
         validate: true
       });
 
-      if (result >= 1) return helper.response(response, 200, newData);
+      if (result >= 1) return helper.response(response, 200, { message: 'Data is updated' });
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {

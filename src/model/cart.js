@@ -10,7 +10,7 @@ const Cart = sequelize.define('cart', {
   },
   user: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     validate: {
       notEmpty: true,
       isNumeric: true,

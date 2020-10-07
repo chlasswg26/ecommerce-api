@@ -10,15 +10,6 @@ const Cart = sequelize.define('cart', {
   },
   user: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    validate: {
-      notEmpty: true,
-      isNumeric: true,
-      isInt: true
-    }
-  },
-  product: {
-    type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
       notNull: true,
@@ -27,15 +18,26 @@ const Cart = sequelize.define('cart', {
       isInt: true
     }
   },
-  guest: {
-    type: DataTypes.ENUM('1', '2'),
+  product: {
+    type: DataTypes.INTEGER,
+    unique: true,
     allowNull: false,
-    defaultValue: '1'
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isNumeric: true,
+      isInt: true
+    }
   },
-  status: {
-    type: DataTypes.ENUM('1', '2'),
+  quantity: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: '1'
+    validate: {
+      notNull: true,
+      notEmpty: true,
+      isNumeric: true,
+      isInt: true
+    }
   }
 }, {
   timestamps: false,

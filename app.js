@@ -8,6 +8,10 @@ const routeNavigator = require('./src/index');
 const sequelize = require('./src/config/sequelize');
 const User = require('./src/model/user');
 const Address = require('./src/model/address');
+const Cart = require('./src/model/cart');
+const Product = require('./src/model/product');
+const History = require('./src/model/history');
+const Payment = require('./src/model/payment');
 
 User.hasMany(Address, {
   foreignKey: 'user'
@@ -20,6 +24,46 @@ User.belongsTo(Address, {
 Address.belongsTo(User, {
   as: 'active_user',
   foreignKey: 'user',
+  constraints: false
+});
+Cart.belongsTo(User, {
+  as: 'active_user',
+  foreignKey: 'user',
+  constraints: false
+});
+Cart.belongsTo(Product, {
+  as: 'active_product',
+  foreignKey: 'product',
+  constraints: false
+});
+History.belongsTo(User, {
+  as: 'active_seller',
+  foreignKey: 'seller',
+  constraints: false
+});
+History.belongsTo(User, {
+  as: 'active_customer',
+  foreignKey: 'customer',
+  constraints: false
+});
+History.belongsTo(Product, {
+  as: 'active_product',
+  foreignKey: 'product',
+  constraints: false
+});
+History.belongsTo(Payment, {
+  as: 'active_payment',
+  foreignKey: 'payment',
+  constraints: false
+});
+History.belongsTo(Address, {
+  as: 'active_address',
+  foreignKey: 'shipping',
+  constraints: false
+});
+Product.belongsTo(User, {
+  as: 'active_seller',
+  foreignKey: 'seller',
   constraints: false
 });
 

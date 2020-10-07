@@ -24,6 +24,14 @@ const Payment = sequelize.define('payment', {
       notEmpty: true
     }
   },
+  image: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+    validate: {
+      notNull: true,
+      notEmpty: true
+    }
+  },
   fee: {
     type: DataTypes.INTEGER,
     allowNull: false,

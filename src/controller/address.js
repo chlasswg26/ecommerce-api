@@ -5,13 +5,13 @@ const modelOptions = {
   include: [
     {
       model: User,
+      as: 'active_user',
       attributes: {
         exclude: [
           'password',
           'verify_code'
         ]
-      },
-      as: 'active_user'
+      }
     }
   ],
   attributes: {

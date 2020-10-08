@@ -11,6 +11,7 @@ const Address = require('./src/model/address');
 const Cart = require('./src/model/cart');
 const Product = require('./src/model/product');
 const History = require('./src/model/history');
+const Category = require('./src/model/category');
 const Payment = require('./src/model/payment');
 
 User.hasMany(Address, {
@@ -61,6 +62,11 @@ History.belongsTo(Address, {
   foreignKey: 'shipping',
   constraints: false
 });
+Product.belongsTo(Category, {
+  as: 'active_category',
+  foreignKey: 'category',
+  constraints: false
+});
 Product.belongsTo(User, {
   as: 'active_seller',
   foreignKey: 'seller',
@@ -71,9 +77,9 @@ sequelize
   .sync()
 
 /**
-   * Uncomment these below for development only
-   * Forcing sync
-   */
+ * Uncomment these below for development only
+ * Forcing sync
+ */
 
 // .sync({ force: true })
 

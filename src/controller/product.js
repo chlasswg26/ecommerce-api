@@ -1,11 +1,39 @@
+const RedisClient = require('../config/redis');
 const { Op } = require('sequelize');
 const helper = require('../helper');
+const Category = require('../model/category');
 const Product = require('../model/product');
+const User = require('../model/user');
+const modelOptions = {
+  include: [
+    {
+      model: Category,
+      as: 'active_category'
+    },
+    {
+      model: User,
+      as: 'active_seller',
+      attributes: {
+        exclude: [
+          'password',
+          'verify_code'
+        ]
+      }
+    }
+  ],
+  attributes: {
+    exclude: [
+      'category',
+      'seller'
+    ]
+  }
+};
 
 module.exports = {
   getProduct: async function (request, response) {
     try {
       const filter = request.query;
+      const redisKey = helper.redis(filter);
       const page = parseInt(filter.page || 1);
       const limit = parseInt(filter.limit || 5);
       const start = parseInt((page - 1) * limit);
@@ -21,6 +49,7 @@ module.exports = {
               [Op.like]: `%${search}%`
             }
           },
+          ...modelOptions,
           order: [
             [
               sort,
@@ -42,6 +71,7 @@ module.exports = {
         };
       } else {
         const { count, rows } = await Product.findAndCountAll({
+          ...modelOptions,
           order: [
             [
               sort,
@@ -63,6 +93,22 @@ module.exports = {
         };
       }
 
+      const cached = {
+        data: result,
+        pagination: pagination
+      };
+
+      RedisClient.setex(
+        `product:${redisKey}`,
+        process.env.CACHE_EXPIRY,
+        JSON.stringify(cached),
+        function (error, reply) {
+          if (error) return helper.response(response, 500, { message: error });
+
+          console.log('redis set cache', reply);
+        }
+      );
+
       return helper.response(response, 200, result, pagination);
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
@@ -71,7 +117,7 @@ module.exports = {
   getProductById: async function (request, response) {
     try {
       const idProduct = request.params.id || null;
-      const result = await Product.findByPk(idProduct);
+      const result = await Product.findByPk(idProduct, modelOptions);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -83,15 +129,96 @@ module.exports = {
   getProductBySeller: async function (request, response) {
     try {
       const idSeller = request.params.id || null;
-      const result = await Product.findAll({
-        where: {
-          seller: idSeller
-        }
-      });
+      const filter = request.query;
+      const redisKey = helper.redis(filter);
+      const page = parseInt(filter.page || 1);
+      const limit = parseInt(filter.limit || 5);
+      const start = parseInt((page - 1) * limit);
+      const search = filter.search || null;
+      const sort = filter.sort || 'updated';
+      const order = filter.order || 'DESC';
+      let result, pagination;
+
+      if (search) {
+        const { count, rows } = await Product.findAndCountAll({
+          where: {
+            [Op.and]: [
+              {
+                name: {
+                  [Op.like]: `%${search}%`
+                }
+              },
+              {
+                seller: idSeller
+              }
+            ]
+          },
+          ...modelOptions,
+          order: [
+            [
+              sort,
+              order
+            ]
+          ],
+          offset: start,
+          limit: limit
+        });
+        result = rows;
+        pagination = {
+          limit: limit,
+          records: Math.ceil(parseInt(count) / limit),
+          pages: {
+            current: page,
+            next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
+            previous: (page - 1) <= 0 ? null : page - 1
+          }
+        };
+      } else {
+        const { count, rows } = await Product.findAndCountAll({
+          where: {
+            seller: idSeller
+          },
+          ...modelOptions,
+          order: [
+            [
+              sort,
+              order
+            ]
+          ],
+          offset: start,
+          limit: limit
+        });
+        result = rows;
+        pagination = {
+          limit: limit,
+          records: Math.ceil(parseInt(count) / limit),
+          pages: {
+            current: page,
+            next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
+            previous: (page - 1) <= 0 ? null : page - 1
+          }
+        };
+      }
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
-      return helper.response(response, 200, result);
+      const cached = {
+        data: result,
+        pagination: pagination
+      };
+
+      RedisClient.setex(
+        `product:${redisKey}`,
+        process.env.CACHE_EXPIRY,
+        JSON.stringify(cached),
+        function (error, reply) {
+          if (error) return helper.response(response, 500, { message: error });
+
+          console.log('redis set cache', reply);
+        }
+      );
+
+      return helper.response(response, 200, result, pagination);
     } catch (error) {
       return helper.response(response, 500, { message: error.message });
     }

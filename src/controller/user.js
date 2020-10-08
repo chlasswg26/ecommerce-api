@@ -88,8 +88,6 @@ module.exports = {
       const idUser = request.params.id || null;
       const file = request.file;
 
-      console.log(newData);
-
       if (newData.password) {
         const hashedPassword = bcrypt.hashSync(newData.password, 18);
         newData.password = hashedPassword;

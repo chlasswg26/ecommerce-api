@@ -11,6 +11,7 @@ module.exports = {
       if (result !== null) {
         console.log('redis filled');
         const cache = JSON.parse(result);
+
         return helper.response(response, 200, cache.data, cache.pagination);
       } else {
         console.log('redis not set, next please');

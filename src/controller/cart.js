@@ -1,10 +1,36 @@
 const helper = require('../helper');
 const Cart = require('../model/cart');
+const Product = require('../model/product');
+const User = require('../model/user');
+const modelOptions = {
+  include: [
+    {
+      model: User,
+      as: 'active_user',
+      attributes: {
+        exclude: [
+          'password',
+          'verify_code'
+        ]
+      }
+    },
+    {
+      model: Product,
+      as: 'active_product'
+    }
+  ],
+  attributes: {
+    exclude: [
+      'user',
+      'product'
+    ]
+  }
+};
 
 module.exports = {
   getCart: async function (_request, response) {
     try {
-      const result = await Cart.findAll();
+      const result = await Cart.findAll(modelOptions);
 
       return helper.response(response, 200, result);
     } catch (error) {
@@ -14,7 +40,7 @@ module.exports = {
   getCartById: async function (request, response) {
     try {
       const idCart = request.params.id || null;
-      const result = await Cart.findByPk(idCart);
+      const result = await Cart.findByPk(idCart, modelOptions);
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });
 
@@ -29,7 +55,8 @@ module.exports = {
       const result = await Cart.findAll({
         where: {
           user: idUser
-        }
+        },
+        ...modelOptions
       });
 
       if (!result) return helper.response(response, 400, { message: 'Bad parameter' });

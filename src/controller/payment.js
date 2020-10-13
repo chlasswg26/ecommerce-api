@@ -4,11 +4,11 @@ const Payment = require('../model/payment');
 module.exports = {
   getPayment: async function (_request, response) {
     try {
-      const result = await Payment.getAll();
+      const result = await Payment.findAll();
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getPaymentById: async function (request, response) {
@@ -20,7 +20,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postPayment: async function (request, response) {
@@ -36,7 +36,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putPayment: async function (request, response) {
@@ -57,7 +57,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deletePayment: async function (request, response) {
@@ -73,7 +73,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

@@ -8,7 +8,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getCategoryById: async function (request, response) {
@@ -20,7 +20,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postCategory: async function (request, response) {
@@ -32,7 +32,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putCategory: async function (request, response) {
@@ -50,7 +50,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deleteCategory: async function (request, response) {
@@ -66,7 +66,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

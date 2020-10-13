@@ -8,7 +8,7 @@ Route
   .get('/:id', verifyToken, cartControllers.getCartById)
   .get('/user/:id', verifyToken, cartControllers.getCartByUser)
   .post('/', verifyToken, cartControllers.postCart)
-  .put('/:id', verifyToken, cartControllers.putCart)
+  .put('/:type/:id', verifyToken, cartControllers.putCart)
   .delete('/:id', verifyToken, cartControllers.deleteCart);
 
 module.exports = Route;

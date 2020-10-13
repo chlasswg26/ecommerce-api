@@ -53,7 +53,7 @@ module.exports = {
           return helper.response(response, 200, result);
         });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postLogin: async function (request, response) {
@@ -63,6 +63,9 @@ module.exports = {
       const checkUser = await User.findOne({
         where: {
           email: setData.email
+        },
+        attributes: {
+          exclude: ['verify_code']
         }
       });
 
@@ -74,7 +77,6 @@ module.exports = {
       if (checkUser.verify === '1') return helper.response(response, 400, { message: 'Unverified account' });
 
       delete checkUser.dataValues.password;
-      delete checkUser.dataValues.verify_code;
 
       const getDataValues = checkUser.dataValues;
       const accessToken = jwt.sign(
@@ -99,7 +101,7 @@ module.exports = {
 
       return helper.response(response, 200, newData);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putVerify: async function (request, response) {
@@ -133,37 +135,41 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Verification failed' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postRefreshToken: async function (request, response) {
-    const data = request.data;
+    try {
+      const data = request.data;
 
-    if (!data) return helper.response(response, 400, { message: 'Failed for refresh token' });
+      if (!data) return helper.response(response, 400, { message: 'Failed for refresh token' });
 
-    const accessToken = jwt.sign(
-      {
-        result: {
-          ...data.result
-        }
-      },
-      process.env.SECRET_KEY,
-      helper.signOptions(process.env.TOKEN_LIFE)
-    );
-    const refreshToken = jwt.sign(
-      {
-        result: {
-          ...data.result
-        }
-      },
-      process.env.REFRESH_SECRET_KEY,
-      helper.signOptions(process.env.REFRESH_TOKEN_LIFE)
-    );
+      const accessToken = jwt.sign(
+        {
+          result: {
+            ...data.result
+          }
+        },
+        process.env.SECRET_KEY,
+        helper.signOptions(process.env.TOKEN_LIFE)
+      );
+      const refreshToken = jwt.sign(
+        {
+          result: {
+            ...data.result
+          }
+        },
+        process.env.REFRESH_SECRET_KEY,
+        helper.signOptions(process.env.REFRESH_TOKEN_LIFE)
+      );
 
-    return helper.response(response, 200, {
-      ...data.result,
-      accessToken,
-      refreshToken
-    });
+      return helper.response(response, 200, {
+        ...data.result,
+        accessToken,
+        refreshToken
+      });
+    } catch (error) {
+      return helper.response(response, 500, { message: error.message || error });
+    }
   }
 };

@@ -6,7 +6,7 @@ module.exports = {
     const redisKey = helper.redis(request.query);
 
     RedisClient.get(`product:${redisKey}`, (error, result) => {
-      if (error) throw error;
+      if (error) return helper.response(response, 500, { message: error.message || error });
 
       if (result !== null) {
         console.log('redis filled');

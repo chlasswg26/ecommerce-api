@@ -34,7 +34,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getCartById: async function (request, response) {
@@ -46,7 +46,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getCartByUser: async function (request, response) {
@@ -63,7 +63,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postCart: async function (request, response) {
@@ -75,25 +75,45 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putCart: async function (request, response) {
     try {
-      const newData = request.body;
+      let newData = request.body;
       const idCart = request.params.id || null;
-      const result = await Cart.update(newData, {
-        where: {
-          id: idCart
-        },
-        validate: true
-      });
+      const cartType = request.params.type || null;
+      let result;
 
-      if (result >= 1) return helper.response(response, 200, { message: 'Data is updated' });
+      if (!newData.quantity) {
+        return helper.response(response, 400, { message: 'Bad input' });
+      } else {
+        newData = newData.quantity || null;
+      }
+      if (!cartType) return helper.response(response, 400, { message: 'Bad parameter' });
+      if (newData < 1) return helper.response(response, 400, { message: 'Cannot reduce Order below 0 (-1, -5, etc)' });
+
+      cartType === 'increment'
+        ? result = await Cart.increment('quantity', {
+          where: {
+            id: idCart
+          },
+          by: newData
+        })
+        : (cartType === 'decrement'
+          ? result = await Cart.decrement('quantity', {
+            where: {
+              id: idCart
+            },
+            by: newData
+          })
+          : result = null);
+
+      if (result[0][1] >= 1) return helper.response(response, 200, { message: 'Data is updated' });
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deleteCart: async function (request, response) {
@@ -109,7 +129,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

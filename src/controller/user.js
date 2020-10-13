@@ -28,7 +28,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getUserById: async function (request, response) {
@@ -40,7 +40,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getUserByAddress: async function (request, response) {
@@ -58,7 +58,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postUser: async function (request, response) {
@@ -79,7 +79,7 @@ module.exports = {
       delete result.dataValues.verify_code;
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putUser: async function (request, response) {
@@ -108,7 +108,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deleteUser: async function (request, response) {
@@ -124,7 +124,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

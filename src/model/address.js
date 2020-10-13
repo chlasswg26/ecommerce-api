@@ -25,11 +25,6 @@ const Address = sequelize.define('address', {
       notNull: true,
       notEmpty: true
     }
-  },
-  status: {
-    type: DataTypes.ENUM('1', '2'),
-    allowNull: false,
-    defaultValue: '1'
   }
 }, {
   timestamps: false,

@@ -11,7 +11,7 @@ module.exports = {
         (error && error.name === 'TokenExpiredError') ||
         (error && error.name === 'JsonWebTokenError')
       ) {
-        return helper.response(response, 500, { message: error.message });
+        return helper.response(response, 500, { message: error.message || error });
       } else {
         request.data = {
           ...result
@@ -21,7 +21,7 @@ module.exports = {
     });
   },
   authorization: function (request, response, next) {
-    const data = request.data;
+    const data = request.data.result;
     if (data.role === '1') {
       return helper.response(response, 500, { message: 'Access denied' });
     } else {
@@ -35,7 +35,7 @@ module.exports = {
         (error && error.name === 'TokenExpiredError') ||
         (error && error.name === 'JsonWebTokenError')
       ) {
-        return helper.response(response, 500, { message: error.message });
+        return helper.response(response, 500, { message: error.message || error });
       } else {
         request.data = {
           ...result

@@ -4,7 +4,9 @@
 const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
+const dotenv = require('dotenv');
 const helper = require('../helper');
+dotenv.config();
 
 const multerStorage = multer({
   storage: multer.diskStorage({
@@ -30,7 +32,7 @@ const multerStorage = multer({
     }
   },
   limits: {
-    fileSize: 8 * 1024 * 1024
+    fileSize: process.env.MIN_FILE_UPLOAD * 1024 * 1024
   }
 });
 
@@ -39,9 +41,9 @@ module.exports = {
     const upload = multerStorage.single('image');
     upload(request, response, function (error) {
       if (error instanceof multer.MulterError) {
-        return helper.response(response, 500, { message: error.message });
+        return helper.response(response, 500, { message: error.message || error });
       } else if (error) {
-        return helper.response(response, 500, { message: error });
+        return helper.response(response, 500, { message: error.message || error });
       } else {
         next();
       }

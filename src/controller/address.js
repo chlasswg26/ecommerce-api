@@ -28,7 +28,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getAddressById: async function (request, response) {
@@ -40,7 +40,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getAddressByUser: async function (request, response) {
@@ -57,7 +57,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postAddress: async function (request, response) {
@@ -69,7 +69,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putAddress: async function (request, response) {
@@ -87,7 +87,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deleteAddress: async function (request, response) {
@@ -103,7 +103,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

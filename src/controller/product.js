@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const RedisClient = require('../config/redis');
 const { Op } = require('sequelize');
 const helper = require('../helper');
@@ -111,7 +113,7 @@ module.exports = {
 
       return helper.response(response, 200, result, pagination);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getProductById: async function (request, response) {
@@ -123,7 +125,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   getProductBySeller: async function (request, response) {
@@ -220,7 +222,7 @@ module.exports = {
 
       return helper.response(response, 200, result, pagination);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   postProduct: async function (request, response) {
@@ -236,7 +238,7 @@ module.exports = {
 
       return helper.response(response, 200, result);
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   putProduct: async function (request, response) {
@@ -257,7 +259,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   },
   deleteProduct: async function (request, response) {
@@ -273,7 +275,7 @@ module.exports = {
 
       return helper.response(response, 400, { message: 'Data is not affected' });
     } catch (error) {
-      return helper.response(response, 500, { message: error.message });
+      return helper.response(response, 500, { message: error.message || error });
     }
   }
 };

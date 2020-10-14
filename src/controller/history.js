@@ -45,7 +45,7 @@ const modelOptions = {
       'customer',
       'product',
       'payment',
-      'address'
+      'shipping'
     ]
   }
 };

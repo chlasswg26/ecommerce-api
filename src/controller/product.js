@@ -63,9 +63,12 @@ module.exports = {
         });
         result = rows;
         pagination = {
-          limit: limit,
-          records: Math.ceil(parseInt(count) / limit),
+          records: {
+            total: count,
+            sheet: Math.ceil(parseInt(count) / limit)
+          },
           pages: {
+            limit: limit,
             current: page,
             next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
             previous: (page - 1) <= 0 ? null : page - 1
@@ -85,9 +88,12 @@ module.exports = {
         });
         result = rows;
         pagination = {
-          limit: limit,
-          records: Math.ceil(parseInt(count) / limit),
+          records: {
+            total: count,
+            sheet: Math.ceil(parseInt(count) / limit)
+          },
           pages: {
+            limit: limit,
             current: page,
             next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
             previous: (page - 1) <= 0 ? null : page - 1
@@ -167,9 +173,12 @@ module.exports = {
         });
         result = rows;
         pagination = {
-          limit: limit,
-          records: Math.ceil(parseInt(count) / limit),
+          records: {
+            total: count,
+            sheet: Math.ceil(parseInt(count) / limit)
+          },
           pages: {
+            limit: limit,
             current: page,
             next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
             previous: (page - 1) <= 0 ? null : page - 1
@@ -192,9 +201,12 @@ module.exports = {
         });
         result = rows;
         pagination = {
-          limit: limit,
-          records: Math.ceil(parseInt(count) / limit),
+          records: {
+            total: count,
+            sheet: Math.ceil(parseInt(count) / limit)
+          },
           pages: {
+            limit: limit,
             current: page,
             next: ((page + 1) - Math.ceil(parseInt(count) / limit)) >= 1 ? null : page + 1,
             previous: (page - 1) <= 0 ? null : page - 1

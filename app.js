@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const https = require('https');
+const fs = require('fs');
 const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -86,12 +88,29 @@ sequelize
   .then(_result => {
     console.log('Sequelize database connected');
 
-    const server = app.listen(process.env.PORT, process.env.HOST, function () {
+    const options = {
+      key: fs.readFileSync('./certs/server-key.pem'),
+      cert: fs.readFileSync('./certs/server-cert.pem')
+    };
+
+    const server = https.createServer(options, app).listen(process.env.PORT, process.env.HOST, function () {
       const host = server.address().address;
       const port = server.address().port;
 
       console.log(`Listen port at ${host}:${port}`);
     });
+
+    /**
+     * Uncomment these below for development only
+     * app listen without http credentials
+     */
+
+    // const server = app.listen(process.env.PORT, process.env.HOST, function () {
+    //   const host = server.address().address;
+    //   const port = server.address().port;
+
+    //   console.log(`Listen port at ${host}:${port}`);
+    // });
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

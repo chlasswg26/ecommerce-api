@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
+
 const routeNavigator = require('./src/index');
 const sequelize = require('./src/config/sequelize');
 const User = require('./src/model/user');
@@ -89,8 +90,8 @@ sequelize
     console.log('Sequelize database connected');
 
     const options = {
-      key: fs.readFileSync('./certs/server-key.pem'),
-      cert: fs.readFileSync('./certs/server-cert.pem')
+      key: fs.readFileSync('certs/server-key.pem', 'utf8'),
+      cert: fs.readFileSync('certs/server-cert.pem', 'utf8')
     };
 
     const server = https.createServer(options, app).listen(process.env.PORT, process.env.HOST, function () {

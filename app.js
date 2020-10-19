@@ -87,11 +87,24 @@ sequelize
   .then(_result => {
     console.log('Sequelize database connected');
 
-    const server = app.listen(process.env.PORT, function () {
+    const server = app.listen(process.env.PORT, process.env.HOST, function () {
       const port = server.address().port;
+      const host = server.address().address;
 
-      console.log(`Listen port at ${port}`);
+      console.log(`Listen port at ${host}:${port}`);
     });
+
+    /**
+     * Uncomment these below for deployment purpose
+     * Remove HOST Environment
+     *
+     */
+
+    // const server = app.listen(process.env.PORT, function () {
+    //   const port = server.address().port;
+
+    //   console.log(`Listen port at ${port}`);
+    // });
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

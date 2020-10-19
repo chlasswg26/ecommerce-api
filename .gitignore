@@ -3,3 +3,4 @@ public
 certs
 yarn.lock
 package-lock.json
+.env

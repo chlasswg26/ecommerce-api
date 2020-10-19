@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "pm2 start app.js -i max"
+    "start": "nodemon app.js"
   },
   "repository": "https://github.com/chlasswg26/ecommerce-api",
   "author": "Ichlas Wardy Gustama <cahyo4713@gmail.com>",
@@ -15,8 +15,6 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fs": "^0.0.1-security",
-    "https": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",

@@ -5,8 +5,8 @@ const categoryControllers = require('../controller/category');
 const { verifyToken, authorization } = require('../middleware/auth');
 
 Route
-  .get('/', verifyToken, categoryControllers.getCategory)
-  .get('/:id', verifyToken, categoryControllers.getCategoryById)
+  .get('/', categoryControllers.getCategory)
+  .get('/:id', categoryControllers.getCategoryById)
   .post('/', verifyToken, authorization, categoryControllers.postCategory)
   .put('/:id', verifyToken, authorization, categoryControllers.putCategory)
   .delete('/:id', verifyToken, authorization, categoryControllers.deleteCategory);

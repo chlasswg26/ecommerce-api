@@ -6,8 +6,8 @@ const { verifyToken, authorization } = require('../middleware/auth');
 const { multer } = require('../middleware/multer');
 
 Route
-  .get('/', verifyToken, paymentControllers.getPayment)
-  .get('/:id', verifyToken, paymentControllers.getPaymentById)
+  .get('/', paymentControllers.getPayment)
+  .get('/:id', paymentControllers.getPaymentById)
   .post('/', verifyToken, authorization, multer, paymentControllers.postPayment)
   .put('/:id', verifyToken, authorization, multer, paymentControllers.putPayment)
   .delete('/:id', verifyToken, authorization, paymentControllers.deletePayment);

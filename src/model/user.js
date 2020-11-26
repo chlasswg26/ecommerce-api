@@ -53,7 +53,19 @@ const User = sequelize.define('user', {
     type: DataTypes.STRING(100),
     allowNull: true
   },
+  store: {
+    type: DataTypes.STRING(50),
+    allowNull: true
+  },
   address: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    validate: {
+      isNumeric: true,
+      isInt: true
+    }
+  },
+  phone: {
     type: DataTypes.INTEGER,
     allowNull: true,
     validate: {
@@ -75,6 +87,11 @@ const User = sequelize.define('user', {
       isNumeric: true,
       isInt: true
     }
+  },
+  seller: {
+    type: DataTypes.ENUM('1', '2'),
+    allowNull: false,
+    defaultValue: '1'
   },
   status: {
     type: DataTypes.ENUM('1', '2'),

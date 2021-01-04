@@ -5,7 +5,7 @@
 </p>
 
 ##  
-### :octocat: Hi there! Thanks for visiting! <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/dotfiles?style=flat-square&label=&color=success&logo=GitHub&logoColor=white&labelColor=373e4d"/>
+### :octocat: Hi there! Thanks for visiting! <img alt="" align="right" src="https://badges.pufler.dev/visits/chlasswg26/ecommerce-api?style=flat-square&label=&color=success&logo=GitHub&logoColor=white&labelColor=373e4d"/>
 
 <a href="https://github.com/expressjs/express"><img src="https://i.cloudup.com/zfY6lL7eFa-3000x3000.png" alt="expressjs/express" align="right" width="400px"></a>
 
@@ -23,7 +23,7 @@ Here are some details about my setup:
 - **Encryption**                   : [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) :doughnut: bcrypt for NodeJs!
 - and many more (include `devDependencies`)
   
-## :blanja:  Setup
+## :blanja: Setup
 This is how to install these repository for manual settings ExpressJS custom apps.
 
 

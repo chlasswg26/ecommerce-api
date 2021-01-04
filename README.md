@@ -1,4 +1,4 @@
-<p align="center"><a name="top" href="#octocat-hi-there-thanks-for-visiting-"><img height="60%" width="100%" src="https://i.ibb.co/QPDKFd4/Group-1158.png"></a></p>
+<p align="center"><a name="top" href="#octocat-hi-there-thanks-for-visiting-"><img width="300" src="https://i.ibb.co/QPDKFd4/Group-1158.png"></a></p>
 
 <p align="center">
 <a href="#blanja--setup"><img width="120px" style="padding: 0 10px;" src="https://i.ibb.co/b5DYRxb/setup.png"></a>
@@ -26,7 +26,9 @@ Here are some details about my setup:
 ## :blanja:  Setup
 This is how to install these repository for manual settings ExpressJS custom apps.
 
+
 - First, you need to rename `env.example` to `.env`
+
 
 ## Requirements
 

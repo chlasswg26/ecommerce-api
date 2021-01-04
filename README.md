@@ -1,4 +1,7 @@
-<p align="center"><a name="top" href="#octocat-hi-there-thanks-for-visiting-"><img width="300" height="300" src="https://i.ibb.co/QPDKFd4/Group-1158.png"></a></p>
+<p align="center"><a name="top" href="#octocat-hi-there-thanks-for-visiting-"><img width="200" src="https://i.ibb.co/QPDKFd4/Group-1158.png"></a></p>
+<br />
+<br />
+<br />
 
 <p align="center">
 <a href="#rice_scene--setup"><img width="120px" style="padding: 0 10px;" src="https://i.ibb.co/b5DYRxb/setup.png"></a>

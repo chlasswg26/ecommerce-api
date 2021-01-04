@@ -1,7 +1,7 @@
 <p align="center"><a name="top" href="#octocat-hi-there-thanks-for-visiting-"><img width="300" src="https://i.ibb.co/QPDKFd4/Group-1158.png"></a></p>
 
 <p align="center">
-<a href="#--setup"><img width="120px" style="padding: 0 10px;" src="https://i.ibb.co/b5DYRxb/setup.png"></a>
+<a href="#rice_scene--setup"><img width="120px" style="padding: 0 10px;" src="https://i.ibb.co/b5DYRxb/setup.png"></a>
 </p>
 
 ##  
@@ -23,7 +23,7 @@ Here are some details about my setup:
 - **Encryption**                   : [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) :doughnut: bcrypt for NodeJs!
 - and many more (include `devDependencies`)
   
-##  Setup
+## :rice_scene:  Setup
 This is how to install these repository for manual settings ExpressJS custom apps.
 
 

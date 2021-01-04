@@ -29,6 +29,8 @@ This is how to install these repository for manual settings ExpressJS custom app
 
 
 - First, you need to rename `env.example` to `.env`
+- Next, create database as you want
+- After that you need read to the section `Usage for development`
 
 
 ## Requirements

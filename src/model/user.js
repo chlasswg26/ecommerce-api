@@ -66,7 +66,7 @@ const User = sequelize.define('user', {
     }
   },
   phone: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     allowNull: true,
     validate: {
       isNumeric: true,
